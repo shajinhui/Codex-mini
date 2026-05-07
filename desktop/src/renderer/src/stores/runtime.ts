@@ -5,7 +5,7 @@ import type {
   PermissionRequestEvent,
   RuntimeEvent,
   RuntimeSessionState,
-  RuntimeToolMetadata
+  RuntimeToolMetadataMap
 } from '@renderer/types/runtimeEvents'
 
 const DEFAULT_ENDPOINT = import.meta.env.VITE_AGENT_WS_URL || 'ws://127.0.0.1:8000/agent/ws'
@@ -27,7 +27,7 @@ export const useRuntimeStore = defineStore('runtime', {
     errorMessage: '',
     sessionState: null as RuntimeSessionState | null,
     activePermission: null as PermissionRequestEvent | null,
-    tools: [] as RuntimeToolMetadata[],
+    tools: {} as RuntimeToolMetadataMap,
     events: [] as RuntimeEvent[]
   }),
   getters: {

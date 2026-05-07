@@ -8,10 +8,15 @@ export type RuntimeSessionState = {
 
 export type RuntimeToolMetadata = {
   name?: string
+  is_read_only?: boolean
+  is_mutating?: boolean
+  supports_parallel?: boolean
   description?: string
   requires_approval?: boolean
   [key: string]: unknown
 }
+
+export type RuntimeToolMetadataMap = Record<string, RuntimeToolMetadata>
 
 type RuntimeEventBase = {
   type: string
@@ -27,7 +32,7 @@ export type ReadyEvent = {
   session_id: string
   schema_version: string
   path: string
-  tools: RuntimeToolMetadata[]
+  tools: RuntimeToolMetadataMap
   session_state: RuntimeSessionState
 }
 
