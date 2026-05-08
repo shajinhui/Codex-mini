@@ -7,14 +7,14 @@ This file is the shared context for future agent conversations in this repo.
 - Project: Codex-mini
 - Goal: a Python Codex-like local agent runtime with a desktop client and optional IDE extension
 - Current stage: stage 2 alpha, runtime-contract baseline complete
-- Main focus: modular tools, safety policy, Docker command execution, local event protocol, desktop-client-ready runtime
+- Main focus: modular tools, safety policy, macOS native sandbox command execution, local event protocol, desktop-client-ready runtime
 
 ## Current Status
 
 - `agent_loop.py` already uses `ToolRegistry` and LangGraph orchestration.
 - Tools are split into individual modules under `tools/`.
-- `run_command` goes through `security/` and `sandbox/docker_executor.py`.
-- Docker now mounts the real project workspace, so allowed command-side file changes land in the repo.
+- `run_command` goes through `security/` and `sandbox/macos_executor.py`.
+- macOS Seatbelt runs approved commands in the real project workspace with network denied and writes limited to the workspace/temp dirs.
 - `server/app.py` is a local event transport / runtime bridge prototype, not the final product UI.
 - WebSocket events now carry a schema version and session state.
 - Assistant output uses LiteLLM streaming in the WebSocket path instead of simulated word chunks.
@@ -37,14 +37,14 @@ This file is the shared context for future agent conversations in this repo.
 - `tools/web_fetch.py`
 - `security/policy.py`: path and command policy
 - `security/circuit_breaker.py`: rejection counter
-- `sandbox/docker_executor.py`: Docker command executor
+- `sandbox/macos_executor.py`: macOS Seatbelt command executor
 - `docs/PROJECT_ARCHITECTURE_STATUS.md`: detailed architecture/status log
 
 ## Behavior Notes
 
 - `read_file` and `grep` are read-only helpers.
 - `write_file` and `edit_file` mutate the real repo and should stay protected.
-- `run_command` is the riskiest path and must keep going through policy + Docker.
+- `run_command` is the riskiest path and must keep going through policy + macOS sandbox.
 - `web_fetch` stays opt-in.
 - Protected paths such as `.env`, `.git`, `.venv`, and `__pycache__` should not be written.
 
@@ -59,7 +59,7 @@ This file is the shared context for future agent conversations in this repo.
 4. Make the backend more product-ready.
    - configurable policy, tool scheduling, `edit_file` dry-run, checkpoint/restore, cancellation/backpressure
 5. Add integration coverage.
-   - desktop client smoke tests, runtime event tests, and Docker sandbox regression tests
+   - desktop client smoke tests, runtime event tests, and macOS sandbox regression tests
 
 ## Useful Commands
 

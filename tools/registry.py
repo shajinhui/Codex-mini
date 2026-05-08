@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Callable
 
-from sandbox.docker_executor import SecureDockerExecutor
+from sandbox.macos_executor import SecureMacOSSandboxExecutor
 from security.circuit_breaker import CircuitBreaker
 from security.policy import SecurityPolicy
 from tools import edit_file, grep, read_file, run_command, web_fetch, write_file
@@ -31,7 +31,7 @@ class ToolRegistry:
             session_id=session_id,
             policy=SecurityPolicy(self.project_root),
             circuit_breaker=CircuitBreaker(threshold=3),
-            docker_executor=SecureDockerExecutor(self.project_root),
+            command_executor=SecureMacOSSandboxExecutor(self.project_root),
         )
         self._tools: dict[str, RegisteredTool] = {}
         self._register_defaults()

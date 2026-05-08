@@ -45,9 +45,9 @@ python agent_loop.py
 - `tools/write_file.py`：写文件工具
 - `tools/edit_file.py`：按行编辑工具
 - `tools/grep.py`：代码搜索工具（rg/grep）
-- `tools/run_command.py`：命令工具（Docker 沙箱执行）
+- `tools/run_command.py`：命令工具（macOS 原生沙箱执行）
 - `security/`：路径校验、命令白名单、熔断器
-- `sandbox/docker_executor.py`：Docker 安全执行器
+- `sandbox/macos_executor.py`：macOS Seatbelt 安全执行器
 - `server/app.py`：FastAPI WebSocket 服务（`/agent/ws`）
 - `pyproject.toml`：项目元信息与依赖（标准 Python 项目配置）
 - `Makefile`：标准化开发命令入口
@@ -58,8 +58,9 @@ python agent_loop.py
 
 - 如果使用 OpenAI：配置 `OPENAI_API_KEY`，并保持 `MODEL_PROVIDER=openai`。
 - 如果使用 DeepSeek：配置 `DEEPSEEK_API_KEY`，并把 `MODEL_PROVIDER=deepseek`。
-- 阶段 2 已将 `run_command` 切换到 Docker 执行，并增加命令白名单、风险拦截和工具元信息。
-- Docker 当前将真实项目目录以读写方式挂载到容器 `/workspace`，因此容器内允许命令产生的文件改动会落到真实项目；网络默认禁用，并受命令策略限制。
+- 阶段 2 已将 `run_command` 切换到 macOS 原生沙箱执行，并增加命令白名单、风险拦截和工具元信息。
+- macOS 沙箱当前使用 `sandbox-exec`/Seatbelt：命令在真实项目目录执行，默认禁止网络，只允许写项目目录和临时目录，并受命令策略限制。
+- 如果当前进程本身已经处在受限沙箱里，`sandbox-exec` 可能返回 `sandbox_apply: Operation not permitted`；正常终端/桌面应用运行环境下再做端到端验证。
 
 ## 测试
 

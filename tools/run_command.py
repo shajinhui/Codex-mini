@@ -24,7 +24,7 @@ def schema() -> dict:
         "type": "function",
         "function": {
             "name": "run_command",
-            "description": "在 Docker 沙箱中执行 shell 命令",
+            "description": "在 macOS 原生沙箱中执行 shell 命令",
             "parameters": RunCommandArgs.model_json_schema(),
         },
     }
@@ -73,7 +73,7 @@ def run(ctx: ToolExecutionContext, payload: dict) -> str:
             },
         )
 
-    result = ctx.docker_executor.run(args.command, timeout_seconds=args.timeout)
+    result = ctx.command_executor.run(args.command, timeout_seconds=args.timeout)
     if result.ok:
         ctx.circuit_breaker.record_success(ctx.session_id, "dangerous_shell")
 

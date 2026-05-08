@@ -6,7 +6,7 @@ from typing import Any, Dict
 
 from security.circuit_breaker import CircuitBreaker
 from security.policy import SecurityPolicy
-from sandbox.docker_executor import SecureDockerExecutor
+from sandbox.macos_executor import SecureMacOSSandboxExecutor
 
 
 @dataclass
@@ -37,4 +37,4 @@ class ToolExecutionContext:
     session_id: str
     policy: SecurityPolicy
     circuit_breaker: CircuitBreaker
-    docker_executor: SecureDockerExecutor
+    command_executor: SecureMacOSSandboxExecutor

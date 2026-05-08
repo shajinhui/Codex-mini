@@ -1,11 +1,11 @@
 from pathlib import Path
 
-from sandbox.executor import DockerSandbox
+from sandbox.macos_executor import SecureMacOSSandboxExecutor
 
 
 if __name__ == "__main__":
     root = Path(__file__).parent.resolve()
-    sandbox = DockerSandbox(project_root=str(root))
+    sandbox = SecureMacOSSandboxExecutor(project_root=root)
 
     result = sandbox.run("python --version")
     print("执行成功:", result.ok)
