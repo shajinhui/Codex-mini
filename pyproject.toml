@@ -1,7 +1,7 @@
 [project]
 name = "codex-mini"
 version = "0.1.0"
-description = "Codex 类 Agent（Python 后端最小实现）"
+description = "Codex 类本地 Agent runtime（Python 后端、工具安全策略、会话持久化）"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

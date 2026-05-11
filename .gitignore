@@ -27,4 +27,8 @@ dist/
 
 # SQLite
 *.db
+*.sqlite
 *.sqlite3
+
+# Codex-mini local runtime state
+.codex-mini/

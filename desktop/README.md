@@ -1,6 +1,6 @@
-# desktop
+# Codex-mini Desktop
 
-An Electron application with Vue and TypeScript
+Codex-mini 的本地桌面客户端，使用 Electron + Vue + TypeScript。它连接 Python WebSocket runtime，负责聊天界面、工具过程展示、权限审批、Markdown 渲染、会话标题和历史会话恢复入口。
 
 ## Recommended IDE Setup
 
@@ -11,24 +11,24 @@ An Electron application with Vue and TypeScript
 ### Install
 
 ```bash
-$ npm install
+$ pnpm install
 ```
 
 ### Development
 
 ```bash
-$ npm run dev
+$ pnpm run dev
 ```
 
 ### Build
 
 ```bash
 # For windows
-$ npm run build:win
+$ pnpm run build:win
 
 # For macOS
-$ npm run build:mac
+$ pnpm run build:mac
 
 # For Linux
-$ npm run build:linux
+$ pnpm run build:linux
 ```

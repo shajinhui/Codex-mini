@@ -96,10 +96,10 @@ function createWindow(): void {
   const isMac = process.platform === 'darwin'
 
   const mainWindow = new BrowserWindow({
-    width: 820,
-    height: 760,
-    minWidth: 720,
-    minHeight: 560,
+    width: 1080,
+    height: 820,
+    minWidth: 820,
+    minHeight: 620,
     show: false,
     autoHideMenuBar: true,
     resizable: true,
@@ -114,7 +114,7 @@ function createWindow(): void {
   })
 
   if (isMac) {
-    mainWindow.setWindowButtonPosition({ x: 20, y: 21 })
+    mainWindow.setWindowButtonPosition({ x: 18, y: 12 })
   }
 
   mainWindow.on('ready-to-show', () => {

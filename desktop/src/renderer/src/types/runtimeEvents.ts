@@ -18,6 +18,27 @@ export type RuntimeToolMetadata = {
 
 export type RuntimeToolMetadataMap = Record<string, RuntimeToolMetadata>
 
+export type ConversationTitleMessage = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export type RuntimeSessionSummary = {
+  session_id: string
+  title: string
+  created_at: number
+  updated_at: number
+  last_turn_id: string | null
+  message_count: number
+  last_message: string
+}
+
+export type RuntimeDisplayMessage = {
+  role: 'user' | 'assistant'
+  content: string
+  timestamp?: number
+}
+
 type RuntimeEventBase = {
   type: string
   session_id?: string
@@ -40,6 +61,13 @@ export type TurnStartedEvent = RuntimeEventBase & {
   type: 'turn_started'
   session_id: string
   turn_id: string
+  session_state: RuntimeSessionState
+}
+
+export type SessionCreatedEvent = RuntimeEventBase & {
+  type: 'session_created'
+  session_id: string
+  previous_state: RuntimeSessionState
   session_state: RuntimeSessionState
 }
 
@@ -81,6 +109,10 @@ export type SessionStateEvent = RuntimeEventBase & {
   category?: string
   previous_state?: RuntimeSessionState
   session_state: RuntimeSessionState
+  resumed_from_disk?: boolean
+  message_count?: number
+  messages?: RuntimeDisplayMessage[]
+  session?: RuntimeSessionSummary | null
 }
 
 export type FinalAnswerEvent = RuntimeEventBase & {
@@ -96,9 +128,21 @@ export type RuntimeErrorEvent = RuntimeEventBase & {
   received_request_id?: string
 }
 
+export type ConversationTitleEvent = RuntimeEventBase & {
+  type: 'conversation_title'
+  title: string
+  model: string
+}
+
+export type SessionsListEvent = RuntimeEventBase & {
+  type: 'sessions_list'
+  sessions: RuntimeSessionSummary[]
+}
+
 export type RuntimeEvent =
   | ReadyEvent
   | TurnStartedEvent
+  | SessionCreatedEvent
   | AssistantTokenEvent
   | ToolCallStartedEvent
   | ToolCallResultEvent
@@ -106,6 +150,8 @@ export type RuntimeEvent =
   | PermissionDecisionAckEvent
   | SessionStateEvent
   | FinalAnswerEvent
+  | ConversationTitleEvent
+  | SessionsListEvent
   | RuntimeErrorEvent
 
 export type RuntimeClientPacket =
@@ -118,8 +164,26 @@ export type RuntimeClientPacket =
       type: 'permission_decision'
       request_id?: string
       approved: boolean
+      feedback?: string
     }
   | {
       type: 'resume_session'
+      session_id?: string
       turn_id?: string
+    }
+  | {
+      type: 'list_sessions'
+      request_id?: string
+      limit?: number
+      turn_id?: string
+    }
+  | {
+      type: 'new_session'
+      request_id?: string
+      turn_id?: string
+    }
+  | {
+      type: 'conversation_title_request'
+      request_id?: string
+      messages: ConversationTitleMessage[]
     }

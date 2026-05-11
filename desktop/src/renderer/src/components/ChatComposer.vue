@@ -29,7 +29,7 @@ function sendMessage(): void {
       v-model="draft"
       :placeholder="placeholder || '输入消息...'"
       :disabled="disabled"
-      rows="3"
+      rows="1"
       @keydown.enter.exact.prevent="sendMessage"
     ></textarea>
 
